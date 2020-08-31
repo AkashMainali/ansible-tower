@@ -3,5 +3,7 @@
   become: yes
   connection: ssh
   tasks:
-   - name: ping the server
-     ping:
+   - name: Install tomcat
+     yum:
+       name: tomcat
+       version: latest
