@@ -1,9 +1,6 @@
 ---
 - hosts: all
   become: yes
-  connection: ssh
   tasks:
-   - name: Install tomcat
-     yum:
-       name: tomcat
-       version: latest
+   - name: Ping the windows server
+     win_ping:
