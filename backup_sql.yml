@@ -1,23 +1,23 @@
 ---
 - hosts: Windows_provisioned_group
   gather_facts: no
-  vars:
-  # The port to use when connecting to the mssql server
-    mssql_port: 1433
-  # The administrative credentials of the mssql server
-    mssql_admin_user: sa
-    mssql_admin_password: "P@sswOrd!"
-  # The mssql user definition. The backup rotation script will be placed here
-    mssql_home: /var/opt/mssql
-    mssql_user: mssql
-    mssql_group: mssql
-  # The path to where the backups should be stored
-    mssql_backup_path: /var/opt/mssql/backups
-  # How many backups to keep. The backup rotation script will sort by newest first, then remove any additional backups. Depending on how you have the schedule set, this could be 14 days worth of backups, or 14 weeks.
-    # mssql_backup_count: 14
-    # mssql_schedule_type: daily
-    # mssql_schedule_interval: 1
-    # mssql_schedule_start_time: '003000'
+  # vars:
+  # # The port to use when connecting to the mssql server
+  #   mssql_port: 1433
+  # # The administrative credentials of the mssql server
+  #   mssql_admin_user: sa
+  #   mssql_admin_password: "P@sswOrd!"
+  # # The mssql user definition. The backup rotation script will be placed here
+  #   mssql_home: /var/opt/mssql
+  #   mssql_user: mssql
+  #   mssql_group: mssql
+  # # The path to where the backups should be stored
+  #   mssql_backup_path: /var/opt/mssql/backups
+  # # How many backups to keep. The backup rotation script will sort by newest first, then remove any additional backups. Depending on how you have the schedule set, this could be 14 days worth of backups, or 14 weeks.
+  #   # mssql_backup_count: 14
+  #   # mssql_schedule_type: daily
+  #   # mssql_schedule_interval: 1
+  #   # mssql_schedule_start_time: '003000'
 
   tasks: 
 
