@@ -1,0 +1,55 @@
+---
+- hosts: Windows_provisioned_group
+  gather_facts: no
+  vars:
+  # The port to use when connecting to the mssql server
+    mssql_port: 1433
+  # The administrative credentials of the mssql server
+    mssql_admin_user: sa
+    mssql_admin_password: "P@sswOrd!"
+  # The mssql user definition. The backup rotation script will be placed here
+    mssql_home: /var/opt/mssql
+    mssql_user: mssql
+    mssql_group: mssql
+  # The path to where the backups should be stored
+    mssql_backup_path: /var/opt/mssql/backups
+  # How many backups to keep. The backup rotation script will sort by newest first, then remove any additional backups. Depending on how you have the schedule set, this could be 14 days worth of backups, or 14 weeks.
+    # mssql_backup_count: 14
+    # mssql_schedule_type: daily
+    # mssql_schedule_interval: 1
+    # mssql_schedule_start_time: '003000'
+
+  tasks: 
+
+    - name: Ensure that the backup directory exists
+      file:
+        state: directory
+        path: "C:/tmp"
+
+    - name: Copy the SQL script to the windodws machine
+      win_copy:
+        src: ../files/{{item}}
+        dest: C:\Windows\temp\{{item}}
+      with_items:
+        - backup_database.sql
+        - add_user.sql
+        - restore_database.sql
+
+    - name: Backup the Database
+      win_shell: sqlcmd -i "C:\Windows\temp\backup_database.sql" -U '{{mssql_admin_user}}' -P '{{mssql_admin_password}}'
+      no_log: true
+      
+    - name: Move the backup to a secure location
+      win_copy:
+      # Change the directory location of source and destination here
+          src: /srv/myfiles/foo.conf
+          dest: C:\Temp\renamed-foo.conf
+
+    - name: Add a user to SQL database
+      win_shell: sqlcmd -i "C:\Windows\temp\add_user_group.sql" -U '{{mssql_admin_user}}' -P '{{mssql_admin_password}}'
+      no_log: true
+
+
+    - name: Restore the Database
+      win_shell: sqlcmd -i "C:\Windows\temp\restore_database.sql" -U '{{mssql_admin_user}}' -P '{{mssql_admin_password}}'
+      no_log: true
