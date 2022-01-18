@@ -49,7 +49,6 @@
       win_shell: sqlcmd -i "C:\Windows\temp\add_user_group.sql" -U '{{mssql_admin_user}}' -P '{{mssql_admin_password}}'
       no_log: true
 
-
     - name: Restore the Database
       win_shell: sqlcmd -i "C:\Windows\temp\restore_database.sql" -U '{{mssql_admin_user}}' -P '{{mssql_admin_password}}'
       no_log: true
